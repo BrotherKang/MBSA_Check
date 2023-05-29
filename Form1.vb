@@ -46,10 +46,12 @@ Public Class Form1
         For Each subDir In strSource.GetDirectories
 
             '取出子目錄的名稱(去除"_REPORT"，以作為主機名稱辨識
-            txtKB_Installed.Text = txtKB_Installed.Text + subDir.Name.Replace("_REPORT", "") + vbCrLf
+            'txtKB_Installed.Text = txtKB_Installed.Text + subDir.Name.Replace("_REPORT", "") + vbCrLf
 
             '搜尋子目錄下所有的XML檔案
             For Each strMbsaXml In subDir.GetFiles("*.xml")
+                '取出檔案的名稱(去除"MBSA_"，以作為主機名稱辨識
+                txtKB_Installed.Text = txtKB_Installed.Text + Path.GetFileNameWithoutExtension(strMbsaXml.Name).Replace("MBSA_", "") + vbCrLf
                 Dim rdMBSAXML As XmlReader = XmlReader.Create(strMbsaXml.FullName) '讀取MBSA XML檔案
                 tmpTXT = "" ' 每次新的檔案就將暫存變數清空
 
@@ -72,7 +74,8 @@ Public Class Form1
                 '將結果寫入檔案
                 fileMbsaXml = My.Computer.FileSystem.OpenTextFileWriter(strXmlFile, True)
                 fileMbsaXml.WriteLine("<MBSA_Check>")  '包住每個主機的結果
-                fileMbsaXml.WriteLine("  <NameIp>" + subDir.Name.Replace("_REPORT", "") + "</NameIp>") '寫入主機名稱(含IP)
+                'fileMbsaXml.WriteLine("  <NameIp>" + subDir.Name.Replace("_REPORT", "") + "</NameIp>") '寫入主機名稱(含IP)
+                fileMbsaXml.WriteLine("  <NameIp>" + Path.GetFileNameWithoutExtension(strMbsaXml.Name).Replace("MBSA_", "") + "</NameIp>") '寫入主機名稱(含IP)
 
                 Dim tmpCsvTXT ' 因應新增CSV檔案部分，增加此暫存變數存放CSV內容
 
@@ -87,7 +90,7 @@ Public Class Form1
                 fileMbsaXml.WriteLine("</MBSA_Check>")
                 fileMbsaXml.Close()
 
-                fileMbsaCsv.WriteLine(subDir.Name.Replace("_REPORT", "") + "," + tmpCsvTXT) ' 新增CSV檔案部分
+                fileMbsaCsv.WriteLine(Path.GetFileNameWithoutExtension(strMbsaXml.Name).Replace("MBSA_", "") + "," + tmpCsvTXT) ' 新增CSV檔案部分
             Next
 
         Next
