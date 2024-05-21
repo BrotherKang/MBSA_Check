@@ -91,8 +91,8 @@ Public Class Form1
 
             ' 判斷tmpTXT有無資料，決定寫入檔案內容
             If tmpTXT = "" Then
-                fileMbsaXml.WriteLine("  <UpdataData>OS(含OFFICE更新) : 無嚴重度3級以上未更新</UpdataData>")
-                tmpCsvTXT = "OS(含OFFICE更新) : 無嚴重度3級以上未更新"   ' 新增CSV檔案部分
+                fileMbsaXml.WriteLine("  <UpdataData>OS(含OFFICE更新) : 無未更新</UpdataData>")
+                tmpCsvTXT = "OS(含OFFICE更新) : 無未更新"   ' 新增CSV檔案部分
             Else
                 fileMbsaXml.WriteLine("    <UpdataData> OS(含OFFICE更新):" + vbCrLf + tmpTXT + "未完成更新</UpdataData>")
                 tmpCsvTXT = """OS(含OFFICE更新):" + vbCrLf + tmpTXT + "未完成更新"""    ' 新增CSV檔案部分
